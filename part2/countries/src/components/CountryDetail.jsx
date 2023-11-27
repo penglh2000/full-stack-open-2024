@@ -19,8 +19,8 @@ const CountryDetail = ({ country }) => {
         src={country.flags.svg} 
         alt={`Flag of ${country.name.common}`}
         style={{ maxWidth: '200px', maxHeight: '150px' }}
-         />
-        <Weather capital={country.capital[0]} apiKey={apiKey} />
+      />
+      <Weather capital={country.capital[0]} apiKey={apiKey} />
     </div>
   );
 };
