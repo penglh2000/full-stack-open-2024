@@ -7,6 +7,7 @@ npm install
 ----> The application is started as follows:
 npm run dev
 
+###### Part 2 ######
 ----> From the root directory of your app, we can run the json-server using the command npx:
 npx json-server --port 3001 --watch db.json
 # Let's navigate to the address http://localhost:3001/notes in the browser. We can see that json-server serves the notes we previously wrote to the file in JSON format.
@@ -19,3 +20,16 @@ set "VITE_SOME_KEY=54l41n3n4v41m34rv0" && npm run dev // For Windows cmd.exe
 You can access the value of the key from the import.meta.env object:
 const api_key = import.meta.env.VITE_SOME_KEY
 // variable api_key now has the value set in startup
+
+###### Part 3 ######
+----> Create a new template for our application:
+npm init
+----> We can run the program directly with Node from the command line:
+node index.jscopy
+# Or we can run it as an npm script:
+npm start
+----> We can start our application with nodemon like this:
+npm install --save-dev nodemon
+node_modules/.bin/nodemon index.js
+# We can now start the server in development mode with the command:
+npm run dev
