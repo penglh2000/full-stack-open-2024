@@ -14,6 +14,9 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :p
 const cors = require('cors')
 app.use(cors())
 
+// To make express show static content, the page index.html and the JavaScript, etc., it fetches
+app.use(express.static('dist'))
+
 let persons = [
   {
     "id": 1,
