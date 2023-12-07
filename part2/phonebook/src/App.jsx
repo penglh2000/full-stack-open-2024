@@ -60,10 +60,10 @@ const App = () => {
           }, 5000)
         })
         .catch(error => {
-          console.error('Error updating person:', error)
-          setNotification({ message: `Error updating phone number for '${existingPerson.name}'`, type: 'error' })
+          console.error('Error updating person:', error.response.data.error)
+          setNotification({ message: error.response.data.error, type: 'error' })
           setTimeout(() => {
-            setNotification({message: null, type: null})
+            setNotification({ message: null, type: null })
           }, 5000)
         })
     } else {
@@ -80,7 +80,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setNotification({ message: `Added '${returnedPerson.name}' to the phonebook!`, type:'success' })
+          setNotification({ message: `Added '${returnedPerson.name}' to the phonebook!`, type: 'success' })
           setTimeout(() => {
             setNotification({ message: null, type: null })
           }, 5000)
@@ -139,7 +139,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification.message} type={notification.type}/>
+      <Notification message={notification.message} type={notification.type} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
