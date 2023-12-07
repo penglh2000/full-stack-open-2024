@@ -86,8 +86,8 @@ const App = () => {
           }, 5000)
         })
         .catch(error => {
-          console.error('Error creating person:', error)
-          setNotification({ message: `Error adding '${returnedPerson.name}' to the phonebook`, type: 'error' })
+          console.error('Error creating person:', error.response.data.error)
+          setNotification({ message: error.response.data.error, type: 'error' })
           setTimeout(() => {
             setNotification({ message: null, type: null })
           }, 5000)

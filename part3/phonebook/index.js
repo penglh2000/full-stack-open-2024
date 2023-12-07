@@ -1,114 +1,101 @@
 const express = require('express')
-const morgan = require('morgan'); // Import the Morgan middleware
 const app = express()
+const morgan = require('morgan') // Import the Morgan middleware
+require('dotenv').config()
 
 app.use(express.json())
-
-// 3.5. Use Morgan middleware for logging
-// app.use(morgan('tiny'))
-// 3.6.Define a new token for logging request body in JSON format. Use Morgan middleware with custom token for logging
-morgan.token('postData', (req) => JSON.stringify(req.body));
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'));
-
-// Take the middleware to use and allow for requests from all origins
+// 3.6. Define a new token for logging request body in JSON format. Use Morgan middleware with custom token for logging
+morgan.token('postData', (req) => JSON.stringify(req.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
+// 3.9. Take the middleware to use and allow for requests from all origins
 const cors = require('cors')
 app.use(cors())
-
-// To make express show static content, the page index.html and the JavaScript, etc., it fetches
+// 3.11. To make express show static content, the page index.html and the JavaScript, etc., it fetches
 app.use(express.static('dist'))
-
-let persons = [
-  {
-    "id": 1,
-    "name": "Arto Hellas",
-    "number": "040-123456"
-  },
-  {
-    "id": 2,
-    "name": "Ada Lovelace",
-    "number": "39-44-5323523"
-  },
-  {
-    "id": 3,
-    "name": "Dan Abramov",
-    "number": "12-43-234345"
-  },
-  {
-    "id": 4,
-    "name": "Mary Poppendieck",
-    "number": "39-23-6423122"
+// 3.13. MongoDB configuration in its own module. `Person` is the Mongoose model for the collection
+const Person = require('./models/person')
+// 3.15. Error Handling Middleware
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
-]
-
-const generateId = () => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(p => p.id))
-    : 0
-  return maxId + 1
+  next(error)
+}
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 
-app.get('/', (request, response) => {
-  response.send('<h1>Phonebook backend</h1>')
-})
-
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
-app.get('/info', (request, response) => {
-  const currentTime = new Date()
-  const infoMessage = `<p>Phonebook has info for ${persons.length} people</p><p>${currentTime}</p>`
-  response.send(infoMessage)
+app.get('/info', (request, response, next) => {
+  Person.countDocuments({})
+    .then(count => {
+      const currentTime = new Date()
+      const infoMessage = `<p>Phonebook has info for ${count} people</p><p>${currentTime}</p>`
+      response.send(infoMessage)
+    })
+    .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = parseInt(request.params.id)
-  const person = persons.find(person => person.id === id)
-
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).send('Not Found') // 404 Not Found
-  }
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end() // 404 Not Found
+      }
+    })
+    .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = parseInt(request.params.id)
-  persons = persons.filter(person => person.id !== id)
-
-  response.status(204).end() // 204 No Content
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndDelete(request.params.id)
+    .then(() => {
+      response.status(204).end() // 204 No Content
+    })
+    .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
-
-  //Check if the name or number is missing
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'name or number missing'
-    })
-  }
-
-  // Check if the name already exists in the phonebook
-  if (persons.some(person => person.name === body.name)) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }
-
-  const newPerson = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  }
-
-  persons = persons.concat(newPerson)
-
-  response.json(newPerson)
+  })
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    })
+    .catch(error => next(error))
 })
 
-// const PORT = 3001
-const PORT = process.env.PORT || 3001
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+  Person.findByIdAndUpdate(
+    request.params.id,
+    { name, number },
+    { new: true, runValidators: true, context: 'query' } //  On update operations, mongoose validators are off by default
+  )
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
+// Handler of malformatted id error
+app.use(errorHandler)
+// Handler of requests with unknown endpoint error
+app.use(unknownEndpoint)
+
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

@@ -12,3 +12,12 @@ content-type: application/json
     "name": "Mary Poppendieck", 
     "number": "39-23-6423122"
 }
+
+###
+PUT http://localhost:3001/api/persons/656c68b80ff194191d473b9f
+content-type: application/json
+
+{ 
+    "name": "Ada Lovelace", 
+    "number": "040-1231237"
+}
