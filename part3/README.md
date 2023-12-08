@@ -9,4 +9,4 @@ In this part our focus shifts towards the backend, that is, towards implementing
 </ol>
 
 ## Exercises
-* **phonebook:** Backend of the phonebook application from Part 2
+* **phonebook:** Backend of the phonebook application from Part 2. BE/FE integration and deployment to the Internet using Render.
