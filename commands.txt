@@ -1,4 +1,5 @@
-----> Let's create an application called part1, navigate to its directory and install the libraries:
+###### Part 1 ######
+----> Let's create a React application called part1, navigate to its directory and install the libraries:
 # npm 7+, extra double-dash is needed:
 npm create vite@latest part1 -- --template react
 cd part1
@@ -22,7 +23,7 @@ const api_key = import.meta.env.VITE_SOME_KEY
 // variable api_key now has the value set in startup
 
 ###### Part 3 ######
-----> Create a new template for our application:
+----> Create a new template for our NodeJS application:
 npm init
 ----> We can run the program directly with Node from the command line:
 node index.jscopy
