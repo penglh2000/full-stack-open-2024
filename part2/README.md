@@ -12,4 +12,4 @@ Let's continue our introduction to React. First, we will take a look at how to r
 ## Exercises
 * **courseinfo:** Extension of courseinfo app from Part 1
 * **phonebook:** A phonebook application to add/edit/delete contacts and their phone numbers.
-* **countries:** A react app that fetches and displays information form the [REST Countries](https://studies.cs.helsinki.fi/restcountries/) and [Open Weather](https://openweathermap.org/) APIs.
+* **countries:** A React app that fetches and displays information form the [REST Countries](https://studies.cs.helsinki.fi/restcountries/) and [Open Weather](https://openweathermap.org/) APIs.
