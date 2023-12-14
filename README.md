@@ -1,9 +1,9 @@
 # University of Helsinki - Full Stack Web Development 
 
 ## Full Stack Open
-This course is an introduction to modern web development with JavaScript. The main focus is on single-page applications implemented with React and supporting them with RESTful and GraphQL web services implemented with Node.js. 
+This course is an introduction to modern web development with JavaScript. The main focus is on single-page applications implemented with React and supporting them with RESTful and GraphQL web services implemented with Node.js. The course also has parts on TypeScript, React Native, and Continuous Integration. Other topics include debugging applications, container technology (Docker), configuration, managing runtime environments, and databases.
 
-The course also has parts on TypeScript, React Native, and Continuous integration. Other topics include debugging applications, container technology, configuration, managing runtime environments, and databases.
+Full Stack Open consists of the core course (parts 0-5) and multiple extensions (parts 6-13).
 
 ## About
 This repository contains my solutions to the 2023/24 edition of the [Full Stack Open](https://fullstackopen.com/en/) course from the [University of Helsinki](https://www.helsinki.fi/en).
@@ -23,3 +23,12 @@ This repository contains my solutions to the 2023/24 edition of the [Full Stack 
 * [Part 11 - CI/CD](https://fullstackopen.com/en/part11)
 * [Part 12 - Containers](https://fullstackopen.com/en/part12)
 * [Part 13 - Using relational databases](https://fullstackopen.com/en/part13)
+
+### Tech Stack - MERN (Core Course)
+
+MERN stands for MongoDB, Express, React, Node. The four key technologies that make up the stack.
+
+* [MongoDB](https://www.mongodb.com/) - A NoSQL database that stores data in flexible, JSON-like documents, providing scalability and flexibility for handling various data types.
+* [Express(.js)](https://expressjs.com/) - A minimal and flexible Node.js web application framework that simplifies the process of building robust and scalable server-side applications.
+* [React(.js)](https://reactjs.org/) - A declarative and efficient JavaScript library for building user interfaces, allowing developers to create reusable UI components that efficiently update and render based on data changes.
+* [Node(.js)](https://nodejs.org/en/) - A JavaScript runtime built on Chrome's V8 engine that enables server-side scripting, allowing developers to build scalable network applications using JavaScript on the server.

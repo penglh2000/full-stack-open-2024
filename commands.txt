@@ -25,8 +25,9 @@ const api_key = import.meta.env.VITE_SOME_KEY
 ###### Part 3 ######
 ----> Create a new template for our NodeJS application:
 npm init
+npm install express
 ----> We can run the program directly with Node from the command line:
-node index.jscopy
+node index.js
 # Or we can run it as an npm script:
 npm start
 ----> We can start our application with nodemon like this:
@@ -34,3 +35,30 @@ npm install --save-dev nodemon
 node_modules/.bin/nodemon index.js
 # We can now start the server in development mode with the command:
 npm run dev
+----> Other dependencies:
+npm install cors #Middleware
+npm install mongoose
+npm install dotenv
+npm install eslint --save-dev
+npx eslint --fix .
+
+###### Part 4 ######
+----> In this course we will be using a testing library developed and used internally by Facebook called jest, 
+      which resembles the previous king of JavaScript testing libraries Mocha.
+npm install --save-dev jest
+npm run test
+npm test -- -t testName'
+----> Other dependencies:
+# Lodash makes JavaScript easier by taking the hassle out of working with arrays, numbers, objects, strings, etc.
+npm install lodash
+# We can then achieve cross-platform compatibility by using the cross-env library
+npm install cross-env
+----> Supertest:
+npm install --save-dev supertest
+# Running tests one by one
+npm test -- tests/note_api.test.js
+# The -t option can be used for running tests with a specific name
+npm test -- -t "a specific note is within the returned notes"
+npm test -- -t 'notes'
+# express-async-errors to remove try-catch
+npm install express-async-errors
