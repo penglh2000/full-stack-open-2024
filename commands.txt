@@ -62,3 +62,8 @@ npm test -- -t "a specific note is within the returned notes"
 npm test -- -t 'notes'
 # express-async-errors to remove try-catch
 npm install express-async-errors
+----> User administration
+npm install bcrypt
+npm install mongoose-unique-validator
+----> Token authentication
+npm install jsonwebtoken

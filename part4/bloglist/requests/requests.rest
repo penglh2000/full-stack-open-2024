@@ -8,6 +8,49 @@ content-type: application/json
     "title": "Blog 1",
     "author": "Alphabet", 
     "url": "google.es",
-    "likes": 5
+    "likes": 5,
+    "userId": "657d96880c1fd2dee504a17d"
 }
 
+###
+POST http://localhost:3003/api/blogs
+content-type: application/json
+
+{ 
+    "title": "Blog 2",
+    "author": "Meta", 
+    "url": "facebook.com",
+    "likes": 10,
+    "userId": "657d96880c1fd2dee504a17d"
+}
+
+###
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+### 
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/login
+content-type: application/json
+
+{
+    "username": "root",
+    "password": "salainen"
+}
+
+###
+POST http://localhost:3003/api/login
+content-type: application/json
+
+{
+    "username": "root",
+    "password": "wrongpassword"
+}

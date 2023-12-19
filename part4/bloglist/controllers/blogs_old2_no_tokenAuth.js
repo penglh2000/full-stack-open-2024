@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -10,12 +11,8 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
-  // Find out the identity of the user who is doing the operation
-  const user = request.user
 
-  if(!user) {
-    return response.status(401).json({ error: 'Token missing or invalid' })
-  }
+  const user = await User.findById(body.userId)
 
   if (!body.title || !body.url) {
     return response.status(400).json({ error: 'Title and URL are required' })
@@ -37,24 +34,6 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  const blogToDelete = await Blog.findById(request.params.id)
-
-  if (!blogToDelete) {
-    return response.status(404).json({ error: 'Blog not found' })
-  }
-
-  // Find out the identity of the user who is doing the operation
-  const user = request.user
-
-  if(!user) {
-    return response.status(401).json({ error: 'Token missing or invalid' })
-  }
-
-  // Compare the user ID of the authentication token with the user ID of the blog's creator
-  if (blogToDelete.user.toString() !== user.id.toString()) {
-    return response.status(403).json({ error: 'Permission denied' })
-  }
-
   await Blog.findByIdAndDelete(request.params.id)
   response.status(204).end()
 })
@@ -69,6 +48,5 @@ blogsRouter.put('/:id', async (request, response) => {
   )
   response.status(200).json(updatedBlog)
 })
-
 
 module.exports = blogsRouter
