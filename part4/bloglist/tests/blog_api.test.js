@@ -10,13 +10,8 @@ const User = require('../models/user')
 
 let token
 
-beforeEach(async () => {
-  await Blog.deleteMany({})
-  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-  const promiseArray = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray)
-
-  // Create or find a test user with the specified password
+beforeAll(async () => {
+// Create or find a test user with the specified password
   let user = await User.findOne({ username: 'test' })
   if (!user) {
     await api
@@ -29,6 +24,13 @@ beforeEach(async () => {
     .post('/api/login')
     .send({ username: 'test', password: 'test' })
   token = loginResponse.body.token
+})
+
+beforeEach(async () => {
+  await Blog.deleteMany({})
+  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 describe('blogs are returned in the expected format', () => {
